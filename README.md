@@ -105,11 +105,11 @@ LIST_REDUCE(
     1.0,
     LIST_TRANSFORM(
       FILTER(
-        company_name_arr_l,
+        token_relative_frequency_arr_l,
         y -> ARRAY_CONTAINS(
           ARRAY_INTERSECT(
-            LIST_TRANSFORM(company_name_arr_l, x -> x.token),
-            LIST_TRANSFORM(company_name_arr_r, x -> x.token)
+            LIST_TRANSFORM(token_relative_frequency_arr_l, x -> x.token),
+            LIST_TRANSFORM(token_relative_frequency_arr_r, x -> x.token)
           ),
           y.token
         )
