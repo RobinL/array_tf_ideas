@@ -125,3 +125,22 @@ A couple of notes on this statement:
 
 - `ARRAY_INTERSECT` does not work on a `struct` so I had to workaround
 - `ARRAY_REDUCE` needs a starting value hence `LIST_PREPEND(1.0)`
+
+If array intersect did work on structs (which it might in future duckdb released) this could be phrased as:
+
+```
+LIST_REDUCE(
+  LIST_PREPEND(
+    1.0,
+    LIST_TRANSFORM(
+          ARRAY_INTERSECT(
+            token_relative_frequency_arr_l,
+            token_relative_frequency_arr_r
+          ),
+      ),
+      x -> x.relative_frequency
+    )
+  ),
+  (p, q) -> p * q
+) < 0.000001
+```
