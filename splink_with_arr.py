@@ -76,4 +76,6 @@ linker.estimate_u_using_random_sampling(max_pairs=1e6)
 linker.match_weights_chart()
 linker.m_u_parameters_chart()
 
-linker.predict(threshold_match_probability=0.9).as_pandas_dataframe()
+linker.predict(threshold_match_probability=0.5).as_pandas_dataframe(limit=100).sample(
+    10
+)
