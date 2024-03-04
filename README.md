@@ -144,3 +144,10 @@ LIST_REDUCE(
   (p, q) -> p * q
 ) < 0.000001
 ```
+
+## Splink results
+
+A first go at this  [here](https://github.com/RobinL/array_tf_ideas/blob/main/splink_with_arr.py) using Companies House data seems to give sensible results
+
+![image](https://github.com/RobinL/array_tf_ideas/assets/2608005/7428e257-03b9-404e-b501-71fe65626b2c)
+
