@@ -66,7 +66,7 @@ How can we write comparisons which take account of token frequencies?
 
 The following is just an idea - there's probably room for improvement but it does work.
 
-Step 1:
+**Step 1:**
 
 Take an array intersect on the `token_relative_frequency_arr` column.
 
@@ -79,7 +79,7 @@ Result:
 ]
 ```
 
-Step 2:
+**Step 2:**
 
 Perform an array reduce, multiplying the `relative_frequency` column:
 
