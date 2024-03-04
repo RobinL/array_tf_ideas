@@ -1,22 +1,25 @@
+import os
+import zipfile
+
 import duckdb
+import requests
 
-# import os
-# import zipfile
-# import requests
-# url = "https://download.companieshouse.gov.uk/BasicCompanyData-2024-03-01-part1_7.zip"
-# Download and extract the above zip
-# def download_zip(url):
-#     r = requests.get(url, stream=True)
-#     with open("data.zip", "wb") as file:
-#         for chunk in r.iter_content(chunk_size=1024):
-#             if chunk:
-#                 file.write(chunk)
-#     with zipfile.ZipFile("data.zip", "r") as zip_ref:
-#         zip_ref.extractall("data")
-#     os.remove("data.zip")
-#     print("Download and extraction complete")
+url = "https://download.companieshouse.gov.uk/BasicCompanyData-2024-03-01-part1_7.zip"
 
-# download_zip(url)
+
+def download_zip(url):
+    r = requests.get(url, stream=True)
+    with open("data.zip", "wb") as file:
+        for chunk in r.iter_content(chunk_size=1024):
+            if chunk:
+                file.write(chunk)
+    with zipfile.ZipFile("data.zip", "r") as zip_ref:
+        zip_ref.extractall("data")
+    os.remove("data.zip")
+    print("Download and extraction complete")
+
+
+download_zip(url)
 
 path = "./data/BasicCompanyData-2024-03-01-part1_7.csv"
 
