@@ -96,3 +96,32 @@ The comparison levels could then be set up as something like:
     │    ├─-- ComparisonLevel: array reduction of intersection of token_relative_frequency_arr  < 1e-5
     │    ├─-- ComparisonLevel: all other
 ```
+
+An example of the full sql for the comparison is:
+
+```
+LIST_REDUCE(
+  LIST_PREPEND(
+    1.0,
+    LIST_TRANSFORM(
+      FILTER(
+        company_name_arr_l,
+        y -> ARRAY_CONTAINS(
+          ARRAY_INTERSECT(
+            LIST_TRANSFORM(company_name_arr_l, x -> x.token),
+            LIST_TRANSFORM(company_name_arr_r, x -> x.token)
+          ),
+          y.token
+        )
+      ),
+      x -> x.relative_frequency
+    )
+  ),
+  (p, q) -> p * q
+) < 0.000001
+```
+
+A couple of notes on this statement:
+
+- `ARRAY_INTERSECT` does not work on a `struct` so I had to workaround
+- `ARRAY_REDUCE` needs a starting value hence `LIST_PREPEND(1.0)`

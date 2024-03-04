@@ -108,26 +108,7 @@ WHERE CompanyName LIKE '%POSEIPORT%'
 # pd.options.display.max_colwidth = 10000
 
 
-duckdb.sql(sql).show(max_width=10000, render_mode="markdown")
-
-
-# Now want a comparison that finds the overlap in two arrays, multiplies the relative frequencies
-# and produces a case statement based on the result
-
-# Can then bin token overlaps based on how unusual they ar e
-
-# Image we have data in duckdb sql columns like
-token_relative_frequency_arr_l = [
-    {"token": "NNOV", "relative_frequency": 0.002717391304347826},
-    {"token": "LIMITED", "relative_frequency": 0.125},
-]
-token_relative_frequency_arr_r = [
-    {"token": "NNOV", "relative_frequency": 0.002717391304347826},
-    {"token": "INC", "relative_frequency": 0.1},
-]
-
-# We want a sql function that returns the overlap of the two arrays based on the token field
-sample_of_10 = duckdb.sql("select * from companyname_with_arr_of_freq limit 10")
+marina_with_tf = duckdb.sql(sql)
 
 
 # can't use array_intersect directly on a struct so need workaround
@@ -168,3 +149,24 @@ cross join sample_of_10 as r
 comparison_with_overlap = duckdb.sql(sql)
 
 comparison_with_overlap
+
+
+import sqlglot
+
+s = sqlglot.parse_one(
+    """
+                  list_reduce(
+        list_prepend(1.0,
+            list_transform(
+    array_filter(company_name_arr_l,
+    y -> array_contains(
+    array_intersect(
+                    list_transform(company_name_arr_l, x->x.token),
+                    list_transform(company_name_arr_r, x->x.token)
+            ), y.token))
+    , x -> x.relative_frequency)
+        ),
+    (p,q) -> p*q)
+     < 0.000001"""
+).sql(dialect="duckdb", pretty=True)
+print(s)
