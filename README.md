@@ -151,3 +151,8 @@ A first go at this  [here](https://github.com/RobinL/array_tf_ideas/blob/main/sp
 
 ![image](https://github.com/RobinL/array_tf_ideas/assets/2608005/7428e257-03b9-404e-b501-71fe65626b2c)
 
+Here are some companies that match with match_probability = 0.9
+
+These are not true matches (partly because I'm deduping a dataset that does not contain duplicates!), but it shows how this technique seems to be working pretty well
+
+![image](https://github.com/RobinL/array_tf_ideas/assets/2608005/80175f99-f22d-46b2-baf3-b92b250e080a)
