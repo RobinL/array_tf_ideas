@@ -28,6 +28,7 @@ limit 100
 """
 duckdb.sql(sql).df()
 
+
 # The CompanyName column contains the name of the company
 # We want to:
 # - 1. clean the data of punctuation and special characters, ensure uppercase
@@ -93,19 +94,7 @@ on companies_exploded.token = token_counts.token
 """
 company_with_token_relative_frequency = duckdb.sql(sql)
 
-# company_with_token_relative_frequency looks like this
-# ┌─────────────────────────────────────────┬──────────┬────────────────────┐
-# │               CompanyName               │  token   │ relative_frequency │
-# │                 varchar                 │ varchar  │       double       │
-# ├─────────────────────────────────────────┼──────────┼────────────────────┤
-# │ ! HEAL UR TECH LTD                      │ HEAL     │ 0.2717391304347826 │
-# │ ! HEAL UR TECH LTD                      │ UR       │ 0.2717391304347826 │
-# │ ! HEAL UR TECH LTD                      │ TECH     │ 0.2717391304347826 │
-# │ ! HEAL UR TECH LTD                      │ LTD      │ 10.054347826086957 │
 
-# The following is a SQL statement to group by compay name to combine into an array give us a table like:
-
-#  ! HEAL UR TECH LTD, [{token: HEAL, relative_frequency: 0.2717391304347826}, {token: UR, relative_frequency: 0.2717391304347826}, {token: TECH, relative_frequency: 0.2717391304347826}, {token: LTD, relative_frequency: 10.054347826086957}]
 sql = """
 select
     CompanyName,
@@ -175,5 +164,3 @@ cross join sample_of_10 as r
 comparison_with_overlap = duckdb.sql(sql)
 
 comparison_with_overlap
-
-# At this point can use a case statement on the 'product_of_relative_frequencies' column
